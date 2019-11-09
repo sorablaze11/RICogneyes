@@ -5,8 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        body{
+            position:fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+            /* Split the screen in half */
+        .split {
+          height: 70%;
+          width: 50%;
+          position: fixed;
+          z-index: 1;
+          top: 10%;
+          overflow-x: hidden;
+          padding-top: 20px;
+        }
+    
+        /* Control the left side */
+        .left {
+          left: 0;
+          background-color: #111;
+        }
+    
+        /* Control the right side */
+        .right {
+          right: 0;
+          background-color: red;
+        }
+    
+        /* If you want the content centered horizontally and vertically */
+        .centered {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+    
+        /* Style the image inside the centered container, if needed */
+        .centered img {
+          width: 150px;
+          border-radius: 50%;
+        }
+        .header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 10%;
+          background-color: gray;
+          color: rgb(206, 194, 194);
+          text-align: center;
+        }
+        .footer {
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 29%;
+          background-color: blue;
+          color: white;
+          text-align: center;
+        }
+      </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>/// Put event listeners into place
+        var flagDict = {0 : 'Recognize', 1 : 'News and Weather Updates', 2 : 'SOS', 3 : 'OCR'};
         window.addEventListener("DOMContentLoaded", function() {
             // Grab elements, create settings, etc.
             var canvas = document.getElementById('canvas');
@@ -52,19 +119,41 @@
             }
 
             // Trigger photo take
+            document.getElementById('left').addEventListener('click', function(){
+                flag = (flag + 3) % 4;
+                document.getElementById("headerText").innerHTML =flagDict[flag];
+                console.log("Left Button Called " + flag);
+            });
+
+            document.getElementById('right').addEventListener('click', function(){
+                flag = (flag + 5) % 4;
+                document.getElementById("headerText").innerHTML =flagDict[flag];
+                console.log("Right Button Called " + flag);
+            });
+
             document.getElementById('snap').addEventListener('click', function() {
-                context.drawImage(video, 0, 0, 640, 640);
-                var dataUrl = canvas.toDataURL();
-                $.ajax({
-                    type: "POST",
-                    url: "https://7aa8bb79.ngrok.io/getAudio",
-                    data: { 
-                        imgBase64: dataUrl
-                    }
-                }).done(function(data) {
-                    $('audio').get(0).load();
-                    $('audio').get(0).play();
-                });
+                console.log("Button Called " + flag)
+                if(flag == 0){
+                    console.log("Bottom Button Called")
+                    context.drawImage(video, 0, 0, 640, 640);
+                    var dataUrl = canvas.toDataURL();
+                    $.ajax({
+                        type: "POST",
+                        url: "https://7aa8bb79.ngrok.io/getAudio",
+                        data: { 
+                            imgBase64: dataUrl
+                        }
+                    }).done(function(data) {
+                        $('audio').get(0).load();
+                        $('audio').get(0).play();
+                    });
+                }
+                if(flag == 1){
+
+                }
+                if(flag == 2){
+
+                }
             });    
         }, false);
     </script>
@@ -76,9 +165,23 @@
         Your browser does not support the audio element.
     </audio>
     <video id="video" width="640" height="640" autoplay></video>
-    <!-- <form action='getDetails' method="GET"> -->
-        <button id="snap">Snap Photo</button>
-    <!-- </form> -->
+    <!-- <button id="snap">Snap Photo</button> -->
+ 
     <canvas id="canvas" width="640" height="640"></canvas>
+    <div class="header" id="head">
+        <div align="center">
+            <p id="headerText">Recognize</p>
+        </div>
+    </div>    
+    <div class="split left" id="left">
+    </div>
+    <div class="split right" id="right">
+    </div>
+    <div class="footer" id="snap">
+    </div> 
+    </body>
+      <script>
+        var flag = 0;
+      </script>
 </body>
 </html>
