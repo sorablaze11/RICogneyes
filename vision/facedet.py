@@ -70,3 +70,5 @@ def face():
 
     print(finalStr)
     return finalStr
+
+face()

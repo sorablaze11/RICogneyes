@@ -1,8 +1,5 @@
 import requests
 import json
-import time
-seconds = time.time()
-# set to your own subscription key value
 subscription_key = 'f42e427eee3343f182f3fe527d75a33a'
 assert subscription_key
 
@@ -14,13 +11,27 @@ image_url = 'https://wamu.org/wp-content/uploads/2019/08/IMG_4358-2-e15652632151
 headers = {'Ocp-Apim-Subscription-Key': subscription_key}
 
 params = {
-    'visualFeatures': 'Categories,Description,Color,Objects'
+    'visualFeatures': 'Description,Objects',
 }
 
 response = requests.post(face_api_url, params=params,
                          headers=headers, json={"url": image_url})
-print(json.dumps(response.json(), indent=4, sort_keys=True))
+#print(json.dumps(response.json(), indent=4, sort_keys=True))
+outputDict = eval(json.dumps(response.json()))
+#print(outputDict)
+finalStr = outputDict['description']['captions'][0]['text'] + ". "
 
-seconds1 = time.time()
+#print(finalStr)
+obs = []
+for ob in outputDict['objects']:
+    obs.append(ob['object'])
+   
+uobs = set(obs)
 
-print(seconds1 - seconds)
+temp = "The objects in front of you are " 
+for ob in uobs:
+    temp = temp + "," + ob + " " 
+
+finalStr = finalStr + temp + '. '
+
+print(finalStr)
