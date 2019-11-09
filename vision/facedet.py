@@ -2,7 +2,7 @@ import requests
 import json
 import inflect
 
-def face():
+def face(image_path):
     p = inflect.engine()
 
     # set to your own subscription key value
@@ -12,17 +12,17 @@ def face():
     # replace <My Endpoint String> with the string from your endpoint URL
     face_api_url = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
 
-    image_url = 'https://cdn.collider.com/wp-content/uploads/2019/04/avengers-cast-interview-slice-600x200.jpg'
+    image_data = open(image_path, "rb").read()
 
-    headers = {'Ocp-Apim-Subscription-Key': subscription_key}
-
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key,
+           'Content-Type': 'application/octet-stream'}
     params = {
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
         'returnFaceAttributes': 'age,gender,emotion',
     }
 
-    response = requests.post(face_api_url, params=params,headers=headers, json={"url": image_url})
+    response = requests.post(face_api_url, params=params,headers=headers, data=image_data)
     #print(json.dumps(response.json(), indent=4, sort_keys=True))
 
     outputDict = eval(json.dumps(response.json()))
@@ -38,7 +38,7 @@ def face():
 
     emoDic = {
         'anger' : 'angry',
-        'contempt' : 'contempt', 
+        'contempt' : 'having contempt', 
         'disgust' : 'in disgust',
         'fear' : 'scared',
         'happiness' : 'happy',
@@ -62,13 +62,10 @@ def face():
 
         print(emo)
 
-        temp = " The " + p.ordinal(num) + " person is a " + x['faceAttributes']['gender'] + ". " + gen + " looks like " + gen + " is " + str(int(x['faceAttributes']['age'])) + " years old. " 
-        temp = temp + gen + " is " + emoDic[emo] + ". "
+        temp = " The " + p.ordinal(num) + " person is a " + x['faceAttributes']['gender'] + ". " + gen + " looks like " + gen + " is " + str(int(x['faceAttributes']['age'])) + " years old and is " + emoDic[emo] + ". "
         num += 1
 
         finalStr = finalStr + temp 
 
     print(finalStr)
     return finalStr
-
-face()
