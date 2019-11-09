@@ -2,7 +2,7 @@ import requests
 import json
 import inflect
 
-def face(image_path):
+def face():
     p = inflect.engine()
 
     # set to your own subscription key value
@@ -12,7 +12,7 @@ def face(image_path):
     # replace <My Endpoint String> with the string from your endpoint URL
     face_api_url = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect'
 
-    image_data = open(image_path, "rb").read()
+    image_data = open('/home/sorablaze/Desktop/Rakathon/RICogneyes/backend/static/some_image.png', "rb").read()
 
     headers = {'Ocp-Apim-Subscription-Key': subscription_key,
            'Content-Type': 'application/octet-stream'}
@@ -69,3 +69,5 @@ def face(image_path):
 
     print(finalStr)
     return finalStr
+
+face()
