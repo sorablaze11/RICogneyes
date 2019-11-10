@@ -6,12 +6,13 @@ from django.http import JsonResponse
 import os
 # from vision.facedet import face
 import base64
-
+from twilio.rest import Client
 import requests
 import json
 import inflect
 from django.templatetags.static import static
 from gtts import gTTS
+import geocoder
 
 def tts(payload):
     print("TTS Called")
@@ -174,7 +175,21 @@ def getNews(request):
 
 @csrf_exempt
 def getSOS(request):
-    tts('Fake Distress Call')
+    g = geocoder.ip('me')
+    print(g.latlng)
+    mssg = "I'm in deep deep trouble." + "Latitute:" + str(g.latlng[0]) + ",Longitude:" + str(g.latlng[1])
+    twilio_sid = "AC20cbc7110c48f924f0888e5704ebefbd"
+    auth_token = "ae8a3bbb009a110ad817a4ec7a007c36"
+    whatsapp_client = Client(twilio_sid, auth_token)
+    contact_directory = {"Sukh Raj Limbu" : '+917358390216'}
+    for key, value in contact_directory.items():
+         msg_loved_ones = whatsapp_client.messages.create(
+            body = mssg,
+            from_= 'whatsapp:+14155238886',
+            to='whatsapp:' + value,
+        )
+        # print(msg_loved_ones)
+    tts('Fake Distress Call Sent')
     return JsonResponse({"filename":"/static/audio.wav"})
 
 @csrf_exempt
