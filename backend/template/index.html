@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script>universal_url = 'https://fc5c29d2.ngrok.io'</script>
     <style>
         body{
             position:fixed;
@@ -13,7 +14,7 @@
             left:0;
             right:0;
         }
-            /* Split the screen in half */
+        /* Split the screen in half */
         .split {
           height: 70%;
           width: 50%;
@@ -54,9 +55,11 @@
           position: fixed;
           top: 0;
           left: 0;
+          font-size: 30px;
           width: 100%;
           height: 10%;
           background-color: gray;
+          font-family: monospace;
           color: rgb(206, 194, 194);
           text-align: center;
         }
@@ -73,7 +76,7 @@
       </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>/// Put event listeners into place
-        var flagDict = {0 : 'Recognize', 1 : 'News and Weather Updates', 2 : 'SOS', 3 : 'OCR'};
+        var flagDict = {0 : 'RICognEyes', 1 : 'News and Weather', 2 : 'SOS', 3 : 'OCR'};
         window.addEventListener("DOMContentLoaded", function() {
             // Grab elements, create settings, etc.
             var canvas = document.getElementById('canvas');
@@ -142,7 +145,7 @@
                     var dataUrl = canvas.toDataURL();
                     $.ajax({
                         type: "POST",
-                        url: "https://b4821922.ngrok.io/getAudio",
+                        url: universal_url + "/getAudio",
                         data: { 
                             imgBase64: dataUrl
                         }
@@ -155,7 +158,7 @@
                     console.log("Bottom Button Called")
                     $.ajax({
                         type: "POST",
-                        url: "https://b4821922.ngrok.io/getNews"
+                        url: universal_url + "/getNews"
                     }).done(function(data) {
                         $('audio').get(0).load();
                         $('audio').get(0).play();
@@ -165,7 +168,7 @@
                     console.log("Bottom Button Called")
                     $.ajax({
                         type: "POST",
-                        url: "https://b4821922.ngrok.io/getSOS"
+                        url: universal_url + "/getSOS"
                     }).done(function(data) {
                         $('audio').get(0).load();
                         $('audio').get(0).play();
@@ -177,7 +180,7 @@
                     var dataUrl = canvas.toDataURL();
                     $.ajax({
                         type: "POST",
-                        url: "https://b4821922.ngrok.io/getOCR",
+                        url: universal_url + "/getOCR",
                         data: { 
                             imgBase64: dataUrl
                         }
@@ -218,7 +221,7 @@
     <canvas id="canvas" width="640" height="640"></canvas>
     <div class="header" id="head">
         <div align="center">
-            <p id="headerText">Recognize</p>
+            <p id="headerText">RICognEyes</p>
         </div>
     </div>    
     <div class="split left" id="left">

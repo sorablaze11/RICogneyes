@@ -13,6 +13,9 @@ import inflect
 from django.templatetags.static import static
 from gtts import gTTS
 import geocoder
+import random
+
+universal_link = "https://fc5c29d2.ngrok.io"
 
 def tts(payload):
     print("TTS Called")
@@ -190,7 +193,7 @@ def getSOS(request):
             to='whatsapp:' + value,
         )
         # print(msg_loved_ones)
-    tts('Fake Distress Call Sent')
+    tts('Distress message has been sent to you relatives and close ones through viber and whatsapp')
     return JsonResponse({"filename":"/static/audio.wav"})
 
 @csrf_exempt
@@ -207,6 +210,6 @@ def getOCR(request):
     filename = 'static/some_image.png'  # I assume you have a way of picking unique filenames
     with open(filename, 'wb') as f:
         f.write(imgdata) 
-    lst = ocr('https://b4821922.ngrok.io/static/some_image.png')
+    lst = ocr(universal_link + '/static/some_image.png')
     tts(lst)
     return JsonResponse({"filename":"/static/audio.wav"})
