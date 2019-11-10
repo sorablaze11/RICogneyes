@@ -170,7 +170,8 @@ def getAudio(request):
 
 @csrf_exempt
 def getNews(request):
-    tts('Fake News')
+    news = ['Maharashtra governor asks BJP to indicate willingness to form Government', 'Cyclone Bulbul news updates: Storm makes landfall, next 6 hours crucial for West Bengal', 'India briefs foreign heads of missions on Ayodhya verdict', 'Lord Ram became a party to the Ayodhya dispute']
+    tts(random.choice(news))
     return JsonResponse({"filename":"/static/audio.wav"})
 
 @csrf_exempt
