@@ -154,3 +154,13 @@ def getAudio(request):
 def getNews(request):
     tts('Fake News')
     return JsonResponse({"filename":"/static/audio.wav"})
+
+@csrf_exempt
+def getSOS(request):
+    tts('Fake Distress Call')
+    return JsonResponse({"filename":"/static/audio.wav"})
+
+@csrf_exempt
+def getOCR(request):
+    tts('Fake Optical Character Recognition Call')
+    return JsonResponse({"filename":"/static/audio.wav"})

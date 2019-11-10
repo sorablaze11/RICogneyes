@@ -162,7 +162,24 @@
                     });
                 }
                 if(flag == 2){
-
+                    console.log("Bottom Button Called")
+                    $.ajax({
+                        type: "POST",
+                        url: "https://b4821922.ngrok.io/getSOS"
+                    }).done(function(data) {
+                        $('audio').get(0).load();
+                        $('audio').get(0).play();
+                    });
+                }
+                if(flag == 3){
+                    console.log("Bottom Button Called")
+                    $.ajax({
+                        type: "POST",
+                        url: "https://b4821922.ngrok.io/getOCR"
+                    }).done(function(data) {
+                        $('audio').get(0).load();
+                        $('audio').get(0).play();
+                    });
                 }
             });    
         }, false);
