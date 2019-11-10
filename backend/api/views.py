@@ -149,3 +149,8 @@ def getAudio(request):
     lst = object('/home/sorablaze/Desktop/Rakathon/RICogneyes/backend/static/some_image.png')
     tts(lst[0] + face('/home/sorablaze/Desktop/Rakathon/RICogneyes/backend/static/some_image.png') + lst[1])
     return JsonResponse({"filename":"/static/audio.wav"})
+
+@csrf_exempt
+def getNews(request):
+    tts('Fake News')
+    return JsonResponse({"filename":"/static/audio.wav"})

@@ -121,14 +121,17 @@
             // Trigger photo take
             document.getElementById('left').addEventListener('click', function(){
                 flag = (flag + 3) % 4;
-                document.getElementById("headerText").innerHTML =flagDict[flag];
+                document.getElementById("headerText").innerHTML = flagDict[flag];
                 console.log("Left Button Called " + flag);
+                // var song = document.getElementsById(flag + 1).play();
+                document.getElementsByTagName('audio')[parseInt(flag, 10) + 1].play();
             });
 
             document.getElementById('right').addEventListener('click', function(){
                 flag = (flag + 5) % 4;
                 document.getElementById("headerText").innerHTML =flagDict[flag];
                 console.log("Right Button Called " + flag);
+                document.getElementsByTagName('audio')[parseInt(flag, 10) + 1].play();
             });
 
             document.getElementById('snap').addEventListener('click', function() {
@@ -139,7 +142,7 @@
                     var dataUrl = canvas.toDataURL();
                     $.ajax({
                         type: "POST",
-                        url: "https://7aa8bb79.ngrok.io/getAudio",
+                        url: "https://b4821922.ngrok.io/getAudio",
                         data: { 
                             imgBase64: dataUrl
                         }
@@ -149,7 +152,14 @@
                     });
                 }
                 if(flag == 1){
-
+                    console.log("Bottom Button Called")
+                    $.ajax({
+                        type: "POST",
+                        url: "https://b4821922.ngrok.io/getNews"
+                    }).done(function(data) {
+                        $('audio').get(0).load();
+                        $('audio').get(0).play();
+                    });
                 }
                 if(flag == 2){
 
@@ -162,6 +172,22 @@
     {% load static %}
     <audio id="add" controls>
         <source id="source" src="{% static "/audio.wav" %}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="1" controls>
+        <source id="source" src="{% static "/0.wav" %}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="2" controls>
+        <source id="source" src="{% static "/1.wav" %}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="3" controls>
+        <source id="source" src="{% static "/2.wav" %}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="4" controls>
+        <source id="source" src="{% static "/3.wav" %}" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
     <video id="video" width="640" height="640" autoplay></video>
