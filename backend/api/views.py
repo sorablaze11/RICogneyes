@@ -126,14 +126,31 @@ def face(image_path):
     print(finalStr)
     return finalStr
 
+def ocr(imageUrl):
+    url = "https://taggun.p.rapidapi.com/api/receipt/v1/verbose/url"
+    #imageUrl = "https://courses.cs.vt.edu/csonline/AI/Lessons/VisualProcessing/OCRscans_files/robertson.jpg"
+    payload = "{\"url\":\"" + imageUrl+ "\",\"headers\":{},\"refresh\":false,\"incognito\":false,\"ipAddress\":\"32.4.2.223\"}"
+    headers = {
+        'x-rapidapi-host': "taggun.p.rapidapi.com",
+        'x-rapidapi-key': "b7f27d3d50mshd9bf5f0c086a683p136f85jsnc22917a3a34a",
+        'content-type': "application/json",
+        'accept': "application/json"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+    output = json.loads(response.text)
+    print(output)
+    x = 'The text in front of you is :    ' + output['text']['text']
+    print(x)
+    return x
+
+
 # Create your views here.
 def clickImage(request):
     return render(request, 'index.html')
 
 @csrf_exempt
 def getAudio(request):
-    url = static('audio.wav')
-    print(url)
     encoded_image = request.POST.get('imgBase64')
     encoded_image = encoded_image.split(',')
     encoded_image = encoded_image[1]
@@ -162,5 +179,18 @@ def getSOS(request):
 
 @csrf_exempt
 def getOCR(request):
-    tts('Fake Optical Character Recognition Call')
+    encoded_image = request.POST.get('imgBase64')
+    encoded_image = encoded_image.split(',')
+    encoded_image = encoded_image[1]
+    # print(encoded_image)
+    missing_padding = len(encoded_image) % 4
+    if missing_padding:
+        print("Missing Padding")
+        encoded_image += '=' * (4 - missing_padding)
+    imgdata = base64.b64decode(encoded_image)
+    filename = 'static/some_image.png'  # I assume you have a way of picking unique filenames
+    with open(filename, 'wb') as f:
+        f.write(imgdata) 
+    lst = ocr('https://b4821922.ngrok.io/static/some_image.png')
+    tts(lst)
     return JsonResponse({"filename":"/static/audio.wav"})

@@ -173,9 +173,14 @@
                 }
                 if(flag == 3){
                     console.log("Bottom Button Called")
+                    context.drawImage(video, 0, 0, 640, 640);
+                    var dataUrl = canvas.toDataURL();
                     $.ajax({
                         type: "POST",
-                        url: "https://b4821922.ngrok.io/getOCR"
+                        url: "https://b4821922.ngrok.io/getOCR",
+                        data: { 
+                            imgBase64: dataUrl
+                        }
                     }).done(function(data) {
                         $('audio').get(0).load();
                         $('audio').get(0).play();
