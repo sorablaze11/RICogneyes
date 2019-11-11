@@ -26,7 +26,7 @@ def tts(payload):
 def object(image_path):
     lst = []
     print("Object Called")
-    subscription_key = 'f42e427eee3343f182f3fe527d75a33a'
+    subscription_key = 'your subscription key'
     assert subscription_key
     image_data = open('/home/sorablaze/Desktop/Rakathon/RICogneyes/backend/static/some_image.png', "rb").read()
     # replace <My Endpoint String> with the string from your endpoint URL
@@ -66,7 +66,7 @@ def face(image_path):
     p = inflect.engine()
 
     # set to your own subscription key value
-    subscription_key = '324fb95616d349628daa880a79684ad2'
+    subscription_key = 'your subscription key'
     assert subscription_key
 
     # replace <My Endpoint String> with the string from your endpoint URL
@@ -182,8 +182,8 @@ def getSOS(request):
     g = geocoder.ip('me')
     print(g.latlng)
     mssg = "I'm in deep deep trouble." + "Latitute:" + str(g.latlng[0]) + ",Longitude:" + str(g.latlng[1])
-    twilio_sid = "AC20cbc7110c48f924f0888e5704ebefbd"
-    auth_token = "ae8a3bbb009a110ad817a4ec7a007c36"
+    twilio_sid = 'your subscription key'
+    auth_token = 'your subscription key'
     whatsapp_client = Client(twilio_sid, auth_token)
     contact_directory = {"Sukh Raj Limbu" : '+917358390216'}
     for key, value in contact_directory.items():
