@@ -10,9 +10,10 @@ Can help people blind people read signs or books using OCR. <br />
 #### TECHSTACK: <br />
 Python <br />
 Django<br />
-JQueryk<br />
+JQuery<br />
 Twilio<br />
-Ngrok
+Ngrok<br />
+Microsoft APIs <br />
 
 ### Instructions to run locally as backend server might crash.
 1. Clone the repo.<br/>
